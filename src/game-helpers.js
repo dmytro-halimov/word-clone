@@ -2,6 +2,7 @@
  * Thanks to Github user dylano for supplying a more-accurate
  * solving algorithm!
  */
+import { GAME_STATUS, NUM_OF_GUESSES_ALLOWED } from './constants';
 
 export function checkGuess(guess, answer) {
   // This constant is a placeholder that indicates we've successfully
@@ -53,3 +54,17 @@ export function checkGuess(guess, answer) {
 
   return result;
 }
+
+export const validateGameStatus = (guesses, answer) => {
+  if (guesses.length === 0) {
+    return GAME_STATUS.Pending;
+  }
+
+  const isWon = guesses.some((guess) => guess.value.toUpperCase() === answer);
+
+  if (guesses.length < NUM_OF_GUESSES_ALLOWED) {
+    return isWon ? GAME_STATUS.Won : GAME_STATUS.Pending;
+  }
+
+  return isWon ? GAME_STATUS.Won : GAME_STATUS.Lost;
+};
